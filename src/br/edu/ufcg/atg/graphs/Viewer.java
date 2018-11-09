@@ -3,8 +3,12 @@ package br.edu.ufcg.atg.graphs;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JApplet;
@@ -12,54 +16,58 @@ import javax.swing.JFrame;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultGraphCell;
+import org.jgraph.graph.Edge;
 import org.jgraph.graph.GraphConstants;
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphModelAdapter;
-
+import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jgrapht.graph.SimpleWeightedGraph;
+
+import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.swing.mxGraphComponent;
 
 public class Viewer extends JApplet {
     private static final Color     DEFAULT_BG_COLOR = Color.decode( "#FAFBFF" );
-    private static final Dimension DEFAULT_SIZE = new Dimension( 530, 320 );
+	private static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
+
+	private JGraphXAdapter<Object, Edge> jgxAdapter;
 
     // 
     private JGraphModelAdapter m_jgAdapter;
+	
+public void init() {
+	// create a JGraphT graph
+	try {
+	
+    	
+		jgxAdapter = new JGraphXAdapter(App.graph);
+		
+		setPreferredSize(DEFAULT_SIZE);
+        mxGraphComponent component = new mxGraphComponent(jgxAdapter);
+        component.setConnectable(false);
+        
+        component.getGraph().setAllowDanglingEdges(false);
+        getContentPane().add(component);
+        resize(DEFAULT_SIZE);
 
-    /**
-     * @see java.applet.Applet#init().
-     */
-    public void init(Graph g) {
+		mxCircleLayout layout = new mxCircleLayout(jgxAdapter);
+		
+		// center the circle
+		int radius = 100;
+		layout.setX0((DEFAULT_SIZE.width / 2.0) - radius);
+		layout.setY0((DEFAULT_SIZE.height / 2.0) - radius);
+		layout.setRadius(radius);
+		layout.setMoveCircle(true);
 
-        // create a visualization using JGraph, via an adapter
-        m_jgAdapter = new JGraphModelAdapter( g );
-
-        JGraph jgraph = new JGraph( m_jgAdapter );
-
-        adjustDisplaySettings( jgraph );
-        getContentPane(  ).add( jgraph );
-        resize( DEFAULT_SIZE );
-
-//        // add some sample data (graph manipulated via JGraphT)
-//        g.addVertex( "v1" );
-//        g.addVertex( "v2" );
-//        g.addVertex( "v3" );
-//        g.addVertex( "v4" );
-//
-//        g.addEdge( "v1", "v2" );
-//        g.addEdge( "v2", "v3" );
-//        g.addEdge( "v3", "v1" );
-//        g.addEdge( "v4", "v3" );
-//
-//        // position vertices nicely within JGraph component
-//        positionVertexAt( "v1", 130, 40 );
-//        positionVertexAt( "v2", 60, 200 );
-//        positionVertexAt( "v3", 310, 230 );
-//        positionVertexAt( "v4", 380, 70 );
-//
-//        // that's all there is to it!...
-    }
-
+		layout.execute(jgxAdapter.getDefaultParent());
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
 
     private void adjustDisplaySettings( JGraph jg ) {
         jg.setPreferredSize( DEFAULT_SIZE );
@@ -91,4 +99,5 @@ public class Viewer extends JApplet {
         cellAttr.put( cell, attr );
         m_jgAdapter.edit( cellAttr, null, null, null );
     }
+ 
 }
