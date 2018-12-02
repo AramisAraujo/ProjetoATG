@@ -2,6 +2,7 @@ package br.edu.ufcg.atg.graphs;
 
 
 import org.jgrapht.*;
+import org.jgrapht.alg.clique.BronKerboschCliqueFinder;
 import org.jgrapht.graph.*;
 import java.util.*;
 
@@ -22,7 +23,14 @@ public class App {
     	makeEdges(graph);
     	
     	System.out.println("Created "+graph.vertexSet().size()+" Nodes.");
-    	System.out.println("Created "+graph.edgeSet().size()+" Edges.");    	
+    	System.out.println("Created "+graph.edgeSet().size()+" Edges.");   
+    	
+    	BronKerboschCliqueFinder bcf = new BronKerboschCliqueFinder(graph);
+    	System.out.println("Quais pessoas trabalharam em mais produções juntos?");
+    	System.out.println(bcf.maximumIterator().next());
+    	System.out.println("3.2 Qual maior grupo de pessoas que trabalharam em filmes de sucesso "
+    			+ "(Filme de sucesso: Classificados com nota acima de 7)?");
+    	
     }
    
     public static List<String> readNodes() {
