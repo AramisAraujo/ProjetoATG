@@ -26,7 +26,6 @@ public class App {
 
 		BronKerboschCliqueFinder bcf = new BronKerboschCliqueFinder(graph);
 		HashSet cliqueMax =  (HashSet) bcf.maximumIterator().next();
-		System.out.println(cliqueMax.iterator().next().getClass());
 
 //////////////QUESTÃO 1
 		System.out.println("Quais pessoas trabalharam em mais produções juntos? \n" + cliqueMax);
