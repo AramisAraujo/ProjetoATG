@@ -22,23 +22,7 @@ public class App {
     	makeEdges(graph);
     	
     	System.out.println("Created "+graph.vertexSet().size()+" Nodes.");
-    	System.out.println("Created "+graph.edgeSet().size()+" Edges.");
-    	
-    	
-    	Viewer viewer = new Viewer();
-    	
-    	viewer.init();    	
-    	
-		JFrame frame = new JFrame();
-		
-		frame.getContentPane().add(viewer);
-		
-		frame.setTitle("IMDBest");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-    	System.out.println("finished");
-    	
+    	System.out.println("Created "+graph.edgeSet().size()+" Edges.");    	
     }
    
     public static List<String> readNodes() {
