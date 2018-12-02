@@ -8,6 +8,7 @@ import java.util.*;
 import javax.swing.JFrame;
 
 import java.io.*;
+import java.lang.reflect.Array;
 
 public class App {
 	public static Graph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<String, DefaultWeightedEdge>(
@@ -24,9 +25,11 @@ public class App {
 		System.out.println("Created " + graph.edgeSet().size() + " Edges.");
 
 		BronKerboschCliqueFinder bcf = new BronKerboschCliqueFinder(graph);
+		HashSet cliqueMax =  (HashSet) bcf.maximumIterator().next();
+		System.out.println(cliqueMax.iterator().next().getClass());
 
 //////////////QUESTÃO 1
-		System.out.println("Quais pessoas trabalharam em mais produções juntos? \n" + bcf.maximumIterator().next());
+		System.out.println("Quais pessoas trabalharam em mais produções juntos? \n" + cliqueMax);
 
 //////////////QUESTÃO 2
 		System.out.println("\nQual maior grupo de pessoas que trabalharam em filmes de sucesso "
